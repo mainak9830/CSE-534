@@ -1,0 +1,39 @@
+DNSSEC Implementation
+
+Helper functions for DNSSEC
+------------------------------
+doQuery() - makes TCP query request of a chosen type(A, NS, DNSKSEY etc.) with a desired server and domain.
+
+parseAuthority() - parses DS record, hashing algorithm, RRSig, RRrecord from Authority section of query's response. In case DS record is not present,
+			it outputs "DNSSEC not supported".
+
+parseKey() - parses KSK, ZSK, DNSKey RRrecord from answer section of query's response. In case it fails, it outputs "DNSSEC not supported"
+
+rootValidation() - validates the root server by checking the hash of KSK with pre-signed Root Key signing keys. And, it also validates the DNSKEY
+ 		RRset and RRsig records using dns.dnssec.validate(). 
+
+validate() - retrieves the DS record from parent and check if it is same as the hash of KSK of the child. In case, it throws any error, it prints "DNNSEC 
+			verification failed".
+
+validateDNSRec() - retrieves the RRset and RRsig records from the child name server and validate them using dns.dnssec.validate(). In case, it throws any error, it prints "DNNSEC 
+			verification failed".
+	
+mydig() - first calls the root Name servers and it checks whether it supports the DNSSEC protocol or not and also, validates the root by
+     		validating the DNSkey record with the help of rootValidation() and finally calls search().
+
+search() - It recursively calls the different nameservers starting from the Top level domains to finally reach the 
+	authoritative name servers. Each call in this function deals with the checking of DNSSEC supporting and validation function with the help of
+	validate() and validateDNSRec().
+
+DNSresolver() - outputs the result of the query with the time taken for DNS resolution and size of the response.
+
+
+For example,
+in case of verisigninc.com
+
+1. We first validate the root and check if it supports DNNSEC or not. For this, We query the root server with a domain reuqest of '.' and fetch the KSk, ZSK, RRset, RRSig. It calls rootValidation() 
+	and matches the hash(KSK) with the pre-defined signing keys for roots proposed by Key Signing Ceremony and it also verifies the DNSkey RRset and RRsig against '.' domain.
+2. We then call search() function and it calls the '.com' to the root with DNSKEY request. First, it fetches the DS record of the parent(root). Also,
+	the address of the next '.com' is extracted and the program calls a '.com' DNSKEY request to the next '.com' name server to fetch the DNSKEY RRset 
+	and RRsig records of the child. And we basically call validate() and validateDNSRec() respectively to validate the DS record(check hash('.com' KSK) == DS(root)) and RRset, RRSig record.
+3. Similar step as 2 is repeated for 'verisigninc.com' to finally get the desired name server and fetch the "A" records.

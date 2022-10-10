@@ -1,0 +1,68 @@
+python mydig.py www.cnn.com A
+
+QUESTION SECTION
+www.cnn.com        IN     A
+
+
+ANSWER SECTION
+www.cnn.com        IN     A      199.232.39.5
+
+
+Query time:  155.58124  msec
+WHEN:  Sun Sep 18 15:38:48 2022
+
+MSG SIZE rcvd:  88
+
+
+--------------------------------------------------------------------------
+
+python mydig.py google.com MX
+
+QUESTION SECTION
+google.com        IN     MX
+
+
+ANSWER SECTION
+google.com        IN     MX      10 smtp.google.com.
+
+
+Query time:  63.97772  msec
+WHEN:  Mon Sep 19 12:23:12 2022
+
+MSG SIZE rcvd:  88
+
+
+--------------------------------------------------------------------
+
+
+python mydig.py www.cnn.com NS
+
+QUESTION SECTION
+www.cnn.com        IN     NS
+
+
+ANSWER SECTION
+www.cnn.com        IN     NS      cnn-tls.map.fastly.net.
+
+
+Query time:  85.08539  msec
+WHEN:  Sun Sep 18 15:40:15 2022
+
+MSG SIZE rcvd:  88
+
+-----------------------------------------------------------------------
+
+python mydig.py google.co.jp A
+
+QUESTION SECTION
+google.co.jp        IN     A
+
+
+ANSWER SECTION
+google.co.jp        IN     A      142.251.40.227
+
+
+Query time:  483.79302  msec
+WHEN:  Sun Sep 18 15:41:13 2022
+
+MSG SIZE rcvd:  88
